@@ -1,5 +1,41 @@
 <?php
 
+function v($v, $czyscHtmlIExit = false) {
+    if ($czyscHtmlIExit)
+        ob_end_clean();
+    echo '<pre>' . print_r($v, true) . '</pre>';
+    if ($czyscHtmlIExit)
+        exit;
+}
+function vv($v, $czyscHtmlIExit = false) {
+    if ($czyscHtmlIExit)
+        ob_end_clean();
+    echo '<pre>';
+    var_dump($v);
+    echo '</pre>';
+    if ($czyscHtmlIExit)
+        exit;
+}
+function vvv($var, & $result = null, $is_view = true) {
+    if (is_array($var) || is_object($var))
+        foreach ($var as $key => $value)
+            vvv($value, $result[$key], false);
+    else
+        $result = $var;
+
+    if ($is_view)
+        v($result);
+}
+function d($limit = 0) {
+    ob_start();
+    debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $limit);
+    $debug = ob_get_contents();
+    ob_end_clean();
+    v($debug);
+    exit;
+}
+
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
