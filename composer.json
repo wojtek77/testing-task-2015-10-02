@@ -40,7 +40,8 @@
         ]
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "../_frameworks/Symfony2.7/bin",
+		"vendor-dir": "../_frameworks/Symfony2.7/vendor"
     },
     "extra": {
         "symfony-app-dir": "app",
