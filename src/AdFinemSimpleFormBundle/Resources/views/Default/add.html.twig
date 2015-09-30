@@ -4,13 +4,13 @@
 
 {% block body %}
     
-    <p>
+	<p>
         <a href="{{ path('simple_form_list') }}">Come back</a>
     </p>
-    
+
     {# disable html5 validations #}
     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    
+       
         {{ form_errors(form) }}
 
         {{ form_row(form.name) }}

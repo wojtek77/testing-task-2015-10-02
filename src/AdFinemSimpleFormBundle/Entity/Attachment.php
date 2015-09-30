@@ -4,6 +4,7 @@ namespace AdFinemSimpleFormBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Attachment
@@ -33,9 +34,15 @@ class Attachment
     private $id;
 
     /**
-     * @var string
+     * @var UploadedFile
      *
      * @ORM\Column(name="file", type="blob")
+     * 
+     * @Assert\NotBlank()
+     * @Assert\File(
+     *     maxSize = "1024k"
+     * )
+     * @Assert\Image()
      */
     private $file;
     
@@ -65,10 +72,7 @@ class Attachment
      */
     public function setFile(UploadedFile $file)
     {
-        /* get binary data */
-        $binaryData = file_get_contents($file->getRealPath());
-        
-        $this->file = $binaryData;
+        $this->file = $file;
         $this->originalName = $file->getClientOriginalName();
         
         return $this;
@@ -77,7 +81,7 @@ class Attachment
     /**
      * Get file
      *
-     * @return string
+     * @return UploadedFile
      */
     public function getFile()
     {
@@ -146,5 +150,18 @@ class Attachment
         }
         
         return $this;
+    }
+    
+    /**
+     * Extra actions before insert and update
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function prePersistUpdate()
+    {
+        /* prepare "file" to saving to database */
+        $file = $this->file;
+        $this->file = file_get_contents($file->getRealPath());
     }
 }
