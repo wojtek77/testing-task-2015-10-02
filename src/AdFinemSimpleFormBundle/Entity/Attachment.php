@@ -3,6 +3,7 @@
 namespace AdFinemSimpleFormBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Attachment
@@ -34,16 +35,16 @@ class Attachment
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="file", type="blob")
      */
-    private $name;
-
+    private $file;
+    
     /**
-     * @var binary
+     * @var string
      *
-     * @ORM\Column(name="data", type="blob")
+     * @ORM\Column(name="original_name", type="string", length=255)
      */
-    private $data;
+    private $originalName;
 
     /**
      * Get id
@@ -56,53 +57,57 @@ class Attachment
     }
 
     /**
-     * Set name
+     * Set file
      *
-     * @param string $name
+     * @param UploadedFile $file
      *
      * @return Attachment
      */
-    public function setName($name)
+    public function setFile(UploadedFile $file)
     {
-        $this->name = $name;
+        /* get binary data */
+        $binaryData = file_get_contents($file->getRealPath());
+        
+        $this->file = $binaryData;
+        $this->originalName = $file->getClientOriginalName();
+        
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+    
+    /**
+     * Set originalName
+     *
+     * @param string $originalName
+     *
+     * @return Attachment
+     */
+    public function setOriginalName($originalName)
+    {
+        $this->originalName = $originalName;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get originalName
      *
      * @return string
      */
-    public function getName()
+    public function getOriginalName()
     {
-        return $this->name;
+        return $this->originalName;
     }
-
-    /**
-     * Set data
-     *
-     * @param string $data
-     *
-     * @return Attachment
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get data
-     *
-     * @return string
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
+    
     /**
      * Set person
      *
@@ -110,7 +115,7 @@ class Attachment
      *
      * @return Attachment
      */
-    public function setPerson(\AdFinemSimpleFormBundle\Entity\Person $person = null)
+    public function setPerson(\AdFinemSimpleFormBundle\Entity\Person $person)
     {
         $this->person = $person;
 
@@ -125,5 +130,21 @@ class Attachment
     public function getPerson()
     {
         return $this->person;
+    }
+    
+    /**
+     * Add person
+     *
+     * @param \AdFinemSimpleFormBundle\Entity\Person $person
+     *
+     * @return Attachment
+     */
+    public function addPerson(\AdFinemSimpleFormBundle\Entity\Person $person)
+    {
+        if ($this->person === null) {
+            $this->person = $person;
+        }
+        
+        return $this;
     }
 }

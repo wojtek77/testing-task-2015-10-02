@@ -4,6 +4,7 @@ namespace AdFinemSimpleFormBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Person
@@ -18,7 +19,7 @@ class Person
     use traits\CreateUpdateFields;
     
     /**
-     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="person")
+     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="person", cascade={"persist"})
      */
     protected $attachments;
 
@@ -140,20 +141,6 @@ class Person
     }
 
     /**
-     * Add attachment
-     *
-     * @param \AdFinemSimpleFormBundle\Entity\Attachment $attachment
-     *
-     * @return Person
-     */
-    public function addAttachment(\AdFinemSimpleFormBundle\Entity\Attachment $attachment)
-    {
-        $this->attachments[] = $attachment;
-
-        return $this;
-    }
-
-    /**
      * Remove attachment
      *
      * @param \AdFinemSimpleFormBundle\Entity\Attachment $attachment
@@ -171,5 +158,21 @@ class Person
     public function getAttachments()
     {
         return $this->attachments;
+    }
+    
+    /**
+     * Add attachment
+     *
+     * @param \AdFinemSimpleFormBundle\Entity\Attachment $attachment
+     *
+     * @return Person
+     */
+    public function addAttachment(\AdFinemSimpleFormBundle\Entity\Attachment $attachment)
+    {
+        $attachment->addPerson($this);
+        
+        $this->attachments[] = $attachment;
+
+        return $this;
     }
 }
