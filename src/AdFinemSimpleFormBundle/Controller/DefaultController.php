@@ -18,7 +18,14 @@ class DefaultController extends Controller
      */
     public function listAction(Request $request)
     {
+        $people = $this->getDoctrine()
+                ->getRepository('AdFinemSimpleFormBundle:Person')
+                ->findAll();
         
+        return $this->render('AdFinemSimpleFormBundle:Default:list.html.twig', [
+            'people' => $people
+        ]);
+//        return ['people' => $people];
     }
     
     /**
@@ -44,5 +51,32 @@ class DefaultController extends Controller
         return $this->render('AdFinemSimpleFormBundle:Default:add.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+    
+    /**
+     * @Route("/view/{id}", name="simple_form_view")
+     * @Template()
+     */
+    public function viewAction(Request $request)
+    {
+        
+    }
+    
+    /**
+     * @Route("/edit/{id}", name="simple_form_edit")
+     * @Template()
+     */
+    public function editAction(Request $request)
+    {
+        
+    }
+    
+    /**
+     * @Route("/delete/{id}", name="simple_form_delete")
+     * @Template()
+     */
+    public function deleteAction(Request $request)
+    {
+        
     }
 }

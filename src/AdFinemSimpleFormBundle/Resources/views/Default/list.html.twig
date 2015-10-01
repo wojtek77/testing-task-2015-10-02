@@ -2,6 +2,31 @@
 
 {% block body %}
     
-    Hello World!
+    <p>
+        <a href="{{ path('simple_form_add') }}">Add new person</a>
+    </p>
+    
+    <table frame="void" rules="all" cellspacing="0" cellpadding="5">
+        <caption>People</caption>
+        <tr>
+            <th>Id</th>
+            <th>Created date</th>
+            <th>Surname</th>
+            <th></th>
+        </tr>
+        
+        {% for person in people %}
+        <tr>
+            <td>{{ person.id }}</td>
+            <td>{{ person.createdAt|date('Y-m-d H:i:s') }}</td>
+            <td>{{ person.surname }}</td>
+            <td>
+                <a href="{{ path('simple_form_view', {'id': person.id}) }}">See more</a>
+                <a href="{{ path('simple_form_edit', {'id': person.id}) }}">Edit</a>
+                <a href="{{ path('simple_form_delete', {'id': person.id}) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
     
 {% endblock %}
