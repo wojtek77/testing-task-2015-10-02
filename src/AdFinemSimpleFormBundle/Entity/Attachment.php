@@ -34,7 +34,7 @@ class Attachment
     private $id;
 
     /**
-     * @var UploadedFile
+     * @var UploadedFile|resource
      *
      * @ORM\Column(name="file", type="blob")
      * 

@@ -2,6 +2,35 @@
 
 {% block body %}
     
-	
+    <p>
+        <a href="{{ path('simple_form_list') }}">Come back</a>
+    </p>
+    
+    <table frame="void" rules="all" cellspacing="0" cellpadding="5">
+        <caption>Person</caption>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>E-mail</th>
+            <th>Attachments</th>
+        </tr>
+        
+        <tr>
+            <td>{{ person.id }}</td>
+            <td>{{ person.name }}</td>
+            <td>{{ person.surname }}</td>
+            <td>{{ person.email }}</td>
+            <td>
+                <ul>
+                {% for attachment in person.attachments %}
+                    <li>
+                        <a href="{{ path('attachment_download', {'id': attachment.id}) }}">{{ attachment.originalName }}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </table>
     
 {% endblock %}

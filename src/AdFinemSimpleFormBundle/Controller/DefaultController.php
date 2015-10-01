@@ -57,9 +57,20 @@ class DefaultController extends Controller
      * @Route("/view/{id}", name="simple_form_view")
      * @Template()
      */
-    public function viewAction(Request $request)
+    public function viewAction(Request $request, $id)
     {
+        /* @var $person Person */
+        $person = $this->getDoctrine()
+                ->getRepository('AdFinemSimpleFormBundle:Person')
+                ->find($id);
         
+        if (!$person) {
+            throw $this->createNotFoundException();
+        }
+        
+        return $this->render('AdFinemSimpleFormBundle:Default:view.html.twig', [
+            'person' => $person
+        ]);
     }
     
     /**
