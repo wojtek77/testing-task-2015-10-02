@@ -22,7 +22,7 @@ class Person
     use traits\CreateUpdateFields;
     
     /**
-     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="person", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Attachment", mappedBy="person", cascade={"persist", "remove"})
      * 
      * @Assert\Valid
      * @Assert\Count(

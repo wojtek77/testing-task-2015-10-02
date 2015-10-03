@@ -113,8 +113,21 @@ class DefaultController extends Controller
      * @Route("/delete/{id}", name="simple_form_delete")
      * @Template()
      */
-    public function deleteAction(Request $request)
+    public function deleteAction(Request $request, $id)
     {
+        /* @var $person Person */
+        $person = $this->getDoctrine()
+                ->getRepository('AdFinemSimpleFormBundle:Person')
+                ->find($id);
         
+        if (!$person) {
+            throw $this->createNotFoundException();
+        }
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($person);
+        $em->flush();
+        
+        return $this->redirectToRoute('simple_form_list', []);
     }
 }
