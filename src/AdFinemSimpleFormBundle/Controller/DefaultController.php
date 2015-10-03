@@ -77,9 +77,36 @@ class DefaultController extends Controller
      * @Route("/edit/{id}", name="simple_form_edit")
      * @Template()
      */
-    public function editAction(Request $request)
+    public function editAction(Request $request, $id)
     {
+        /* @var $person Person */
+        $person = $this->getDoctrine()
+                ->getRepository('AdFinemSimpleFormBundle:Person')
+                ->find($id);
         
+        if (!$person) {
+            throw $this->createNotFoundException();
+        }
+        
+        /* workaround to disable attachments' relationship */
+        $person->disableAttachmentsRelation();
+        
+        $form = $this->createForm(new PersonType(), $person);
+        
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($person);
+            $em->flush();
+            
+            return $this->redirectToRoute('simple_form_list', []);
+        }
+        
+        return $this->render('AdFinemSimpleFormBundle:Default:edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
     
     /**

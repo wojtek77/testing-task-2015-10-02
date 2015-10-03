@@ -19,14 +19,14 @@ trait CreateUpdateFields
      *
      * @ORM\Column(name="created_at", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var datetime $updated
      * 
      * @ORM\Column(name="updated_at", type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
     
     
     /**

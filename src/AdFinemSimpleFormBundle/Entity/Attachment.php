@@ -31,7 +31,7 @@ class Attachment
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var UploadedFile|resource
@@ -44,14 +44,14 @@ class Attachment
      * )
      * @Assert\Image()
      */
-    private $file;
+    protected $file;
     
     /**
      * @var string
      *
      * @ORM\Column(name="original_name", type="string", length=255)
      */
-    private $originalName;
+    protected $originalName;
 
     /**
      * Get id

@@ -32,7 +32,7 @@ class Person
      *      maxMessage = "You cannot specify more than {{ limit }} attachments"
      * )
      */
-    private $attachments;
+    protected $attachments;
 
     /**
      * @var integer
@@ -41,7 +41,7 @@ class Person
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -53,7 +53,7 @@ class Person
      *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      * )
      */
-    private $name = '';
+    protected $name = '';
 
     /**
      * @var string
@@ -66,7 +66,7 @@ class Person
      *     message="If the name is began from 'A' the surname cannot be began from 'A'"
      * )
      */
-    private $surname;
+    protected $surname;
 
     /**
      * @var string
@@ -79,7 +79,7 @@ class Person
      *     checkHost = true
      * )
      */
-    private $email;
+    protected $email;
     
     public function __construct()
     {
@@ -177,7 +177,7 @@ class Person
     {
         $this->attachments->removeElement($attachment);
     }
-
+    
     /**
      * Get attachments
      *
@@ -202,6 +202,14 @@ class Person
         $this->attachments[] = $attachment;
 
         return $this;
+    }
+    
+    /**
+     * Workaround to disable attachments' relationship
+     */
+    public function disableAttachmentsRelation()
+    {
+        $this->attachments = null;
     }
     
     /**
