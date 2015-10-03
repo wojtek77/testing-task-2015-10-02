@@ -35,6 +35,11 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+#        resources: ['bootstrap_3_layout.html.twig']
+        resources: ['bootstrap_3_horizontal_layout.html.twig']
+#        resources: ['form_div_layout.html.twig']
+#        resources: ['form_table_layout.html.twig']
 
 # Assetic Configuration
 assetic:
@@ -56,7 +61,15 @@ assetic:
             inputs:
                 - %kernel.root_dir%/../web/components/jquery/jquery.js
                 - %kernel.root_dir%/../web/components/jquery-ui/jquery-ui.js
-
+        bootstrap_js:
+            inputs:
+                - %kernel.root_dir%/../web/components/bootstrap/js/bootstrap.js
+        bootstrap_css:
+            inputs:
+                - %kernel.root_dir%/../web/components/bootstrap/css/bootstrap.css
+                - %kernel.root_dir%/../web/components/bootstrap/css/bootstrap-theme.css
+            filters: [cssrewrite]
+        
 # Doctrine Configuration
 doctrine:
     dbal:
